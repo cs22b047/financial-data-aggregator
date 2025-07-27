@@ -1,6 +1,6 @@
-import statsHandler from '../../pages/api/transactions-stats';
-import loginHandler from '../../pages/api/auth/login';
-import { testApiHandler } from 'next-test-api-route-handler';
+const { testApiHandler } = require('next-test-api-route-handler');
+const statsHandler = require('../../pages/api/transactions-stats').default;
+const loginHandler = require('../../pages/api/auth/login').default;
 
 let adminToken, clientToken;
 

@@ -1,5 +1,5 @@
-import loginHandler from '../../pages/api/auth/login';
-import { testApiHandler } from 'next-test-api-route-handler';
+const { testApiHandler } = require('next-test-api-route-handler');
+const loginHandler = require('../../pages/api/auth/login').default;
 
 describe('POST /api/auth/login', () => {
   it('admin login succeeds and returns role', async () => {
@@ -13,10 +13,9 @@ describe('POST /api/auth/login', () => {
         expect(res.status).toBe(200);
         const data = await res.json();
         expect(data.token).toBeDefined();
-        // Check JWT role
         const payload = JSON.parse(Buffer.from(data.token.split('.')[1], 'base64').toString());
         expect(payload.role).toBe('admin');
-      },
+      }
     });
   });
 
@@ -29,7 +28,7 @@ describe('POST /api/auth/login', () => {
           body: { username: 'admin', password: 'wrong' },
         });
         expect(res.status).toBe(401);
-      },
+      }
     });
   });
 });

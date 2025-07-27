@@ -25,6 +25,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "jest": "^30.0.5",
+    "next-test-api-route-handler": "^5.0.0",
     "supertest": "^7.1.4",
     "tailwindcss": "^4",
     "typescript": "^5"

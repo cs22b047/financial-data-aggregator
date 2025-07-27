@@ -1,0 +1,119 @@
+{
+  "info": {
+    "name": "Financial Data Aggregator API",
+    "description": "Postman collection for all API endpoints: auth, transactions, analytics, user update",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth: Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"token\": \"<JWT_TOKEN>\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Auth: Refresh Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/auth/refresh", "host": ["{{baseUrl}}"], "path": ["api","auth","refresh"] }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"token\": \"<NEW_JWT_TOKEN>\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Auth: Update Credentials",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/auth/update", "host": ["{{baseUrl}}"], "path": ["api","auth","update"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"newUsername\": \"newUser\",\n  \"newPassword\": \"newPass123\"\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{ \"success\": true }"
+        }
+      ]
+    },
+    {
+      "name": "Transactions: List & Filter",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions?limit=20&page=1&merchant=M1823072687",
+          "host": ["{{baseUrl}}"],
+          "path": ["api","transactions"],
+          "query": [
+            { "key": "limit", "value": "20" },
+            { "key": "page", "value": "1" },
+            { "key": "merchant", "value": "M1823072687" }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"page\":1,\n  \"limit\":20,\n  \"total\":100,\n  \"totalPages\":5,\n  \"data\":[ { /* transaction objects */ } ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Transactions-Stats: Grouped Analytics",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions-stats?groupBy=category&top=5",
+          "host": ["{{baseUrl}}"],
+          "path": ["api","transactions-stats"],
+          "query": [
+            { "key": "groupBy", "value": "category" },
+            { "key": "top", "value": "5" }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "[ { \"category\":\"es_transportation\",\"count\":42 }, … ]"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" }
+  ]
+}
+    

@@ -1,0 +1,1526 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "2c297329-9704-4b22-b404-a62d8e6917dc",
+        "name": "Auth: Login",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "auth",
+              "login"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+          }
+        },
+        "response": [
+          {
+            "id": "df083b7a-9b5e-46d8-b516-f8a53dd0741a",
+            "name": "200 OK",
+            "header": [],
+            "body": "{\n  \"token\": \"<JWT_TOKEN>\"\n}",
+            "cookie": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "77c505b6-0ae7-419e-aad0-db62b24dd46c",
+        "name": "Auth: Refresh Token",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "auth",
+              "refresh"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "method": "POST"
+        },
+        "response": [
+          {
+            "id": "096449ac-8ae3-47f1-8f2a-c57d07fb22f2",
+            "name": "200 OK",
+            "header": [],
+            "body": "{\n  \"token\": \"<NEW_JWT_TOKEN>\"\n}",
+            "cookie": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "ff0987f5-1108-4feb-8e41-a37a4e493325",
+        "name": "Auth: Update Credentials",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "auth",
+              "update"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"newUsername\": \"newUser\",\n  \"newPassword\": \"newPass123\"\n}"
+          }
+        },
+        "response": [
+          {
+            "id": "54c59f01-fc90-40e9-96e2-0583f1a731b2",
+            "name": "200 OK",
+            "header": [],
+            "body": "{ \"success\": true }",
+            "cookie": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "9874fd72-b59c-4443-bd6d-9136742888d6",
+        "name": "Transactions: List & Filter",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "transactions"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [
+              {
+                "key": "limit",
+                "value": "20"
+              },
+              {
+                "key": "page",
+                "value": "1"
+              },
+              {
+                "key": "merchant",
+                "value": "M1823072687"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "method": "GET"
+        },
+        "response": [
+          {
+            "id": "178829b8-5c64-4701-8d40-9ca73a04a9eb",
+            "name": "200 OK",
+            "header": [],
+            "body": "{\n  \"page\":1,\n  \"limit\":20,\n  \"total\":100,\n  \"totalPages\":5,\n  \"data\":[ { /* transaction objects */ } ]\n}",
+            "cookie": []
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "a9f0bddc-4e50-41c3-a4f1-d74f47e0f678",
+        "name": "Transactions-Stats: Grouped Analytics",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "transactions-stats"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [
+              {
+                "key": "groupBy",
+                "value": "category"
+              },
+              {
+                "key": "top",
+                "value": "5"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "method": "GET"
+        },
+        "response": [
+          {
+            "id": "8c8621ec-561e-4157-baca-85dd14ea8ce3",
+            "name": "200 OK",
+            "header": [],
+            "body": "[ { \"category\":\"es_transportation\",\"count\":42 }, … ]",
+            "cookie": []
+          }
+        ],
+        "event": []
+      }
+    ],
+    "event": [],
+    "variable": [
+      {
+        "type": "any",
+        "value": "http://localhost:3000",
+        "key": "baseUrl"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "token"
+      }
+    ],
+    "info": {
+      "_postman_id": "8843b6bf-cde1-42c6-9f8a-8c970d06f30e",
+      "name": "Financial Data Aggregator API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "Postman collection for all API endpoints: auth, transactions, analytics, user update",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "id": "3ae8bcf9-754d-4fdd-bd53-418c23620157",
+    "values": []
+  },
+  "globals": {
+    "id": "cd6f1798-44a8-4288-a0e7-426999eec7e7",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 5
+      },
+      "tests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 0,
+      "responseMin": 0,
+      "responseMax": 0,
+      "responseSd": 0,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1753617420289,
+      "completed": 1753617420357
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 5,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "f36fdb25-edec-47d9-8e6c-da53f0e3a883",
+          "httpRequestId": "263120a9-278c-445d-9224-3a35cc748559"
+        },
+        "item": {
+          "id": "2c297329-9704-4b22-b404-a62d8e6917dc",
+          "name": "Auth: Login",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "df083b7a-9b5e-46d8-b516-f8a53dd0741a",
+              "name": "200 OK",
+              "header": [],
+              "body": "{\n  \"token\": \"<JWT_TOKEN>\"\n}",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "auth",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "7026b695-f224-4e28-a08f-dd4a3dec3cdf",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+          }
+        },
+        "id": "2c297329-9704-4b22-b404-a62d8e6917dc",
+        "requestError": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000
+        }
+      },
+      {
+        "cursor": {
+          "ref": "ec9eebfa-fb70-42bf-a53d-898c444a7a53",
+          "length": 5,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "01b1b306-a403-4380-baa6-4a4a12e21d6a"
+        },
+        "item": {
+          "id": "77c505b6-0ae7-419e-aad0-db62b24dd46c",
+          "name": "Auth: Refresh Token",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST"
+          },
+          "response": [
+            {
+              "id": "096449ac-8ae3-47f1-8f2a-c57d07fb22f2",
+              "name": "200 OK",
+              "header": [],
+              "body": "{\n  \"token\": \"<NEW_JWT_TOKEN>\"\n}",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "auth",
+              "refresh"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer "
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "98eecaa7-4401-4f0d-89c1-1defa3483ccf",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST"
+        },
+        "id": "77c505b6-0ae7-419e-aad0-db62b24dd46c",
+        "requestError": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000
+        }
+      },
+      {
+        "cursor": {
+          "ref": "5084f2ee-8376-461b-9d91-dec6e7016a26",
+          "length": 5,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0,
+          "httpRequestId": "4bd613be-9a7e-4672-b62b-70c0992bca55"
+        },
+        "item": {
+          "id": "ff0987f5-1108-4feb-8e41-a37a4e493325",
+          "name": "Auth: Update Credentials",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "auth",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newUsername\": \"newUser\",\n  \"newPassword\": \"newPass123\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "54c59f01-fc90-40e9-96e2-0583f1a731b2",
+              "name": "200 OK",
+              "header": [],
+              "body": "{ \"success\": true }",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "auth",
+              "update"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer "
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "24febce8-f0b6-4a5a-85cd-4b9c0430f54d",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"newUsername\": \"newUser\",\n  \"newPassword\": \"newPass123\"\n}"
+          }
+        },
+        "id": "ff0987f5-1108-4feb-8e41-a37a4e493325",
+        "requestError": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000
+        }
+      },
+      {
+        "cursor": {
+          "ref": "198bc0a6-c5ab-4da6-8aa2-5995129190a4",
+          "length": 5,
+          "cycles": 1,
+          "position": 3,
+          "iteration": 0,
+          "httpRequestId": "fd895be9-c4ec-4eb3-ba31-0a28bc3110c9"
+        },
+        "item": {
+          "id": "9874fd72-b59c-4443-bd6d-9136742888d6",
+          "name": "Transactions: List & Filter",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "merchant",
+                  "value": "M1823072687"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "178829b8-5c64-4701-8d40-9ca73a04a9eb",
+              "name": "200 OK",
+              "header": [],
+              "body": "{\n  \"page\":1,\n  \"limit\":20,\n  \"total\":100,\n  \"totalPages\":5,\n  \"data\":[ { /* transaction objects */ } ]\n}",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "transactions"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [
+              {
+                "key": "limit",
+                "value": "20"
+              },
+              {
+                "key": "page",
+                "value": "1"
+              },
+              {
+                "key": "merchant",
+                "value": "M1823072687"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer "
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d63ae904-d025-4feb-8ab5-c15a95f1af10",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "id": "9874fd72-b59c-4443-bd6d-9136742888d6",
+        "requestError": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000
+        }
+      },
+      {
+        "cursor": {
+          "ref": "a8dd87ff-9222-4e08-910c-f0837614ee17",
+          "length": 5,
+          "cycles": 1,
+          "position": 4,
+          "iteration": 0,
+          "httpRequestId": "3f958311-32a2-41cb-862c-4bb43dde3fc3"
+        },
+        "item": {
+          "id": "a9f0bddc-4e50-41c3-a4f1-d74f47e0f678",
+          "name": "Transactions-Stats: Grouped Analytics",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "transactions-stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "groupBy",
+                  "value": "category"
+                },
+                {
+                  "key": "top",
+                  "value": "5"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "8c8621ec-561e-4157-baca-85dd14ea8ce3",
+              "name": "200 OK",
+              "header": [],
+              "body": "[ { \"category\":\"es_transportation\",\"count\":42 }, … ]",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "transactions-stats"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [
+              {
+                "key": "groupBy",
+                "value": "category"
+              },
+              {
+                "key": "top",
+                "value": "5"
+              }
+            ],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer "
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "a1898aae-ea01-4a4c-b2f6-4b7c6f50deab",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "id": "a9f0bddc-4e50-41c3-a4f1-d74f47e0f678",
+        "requestError": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000
+        }
+      }
+    ],
+    "transfers": {
+      "responseTotal": 0
+    },
+    "failures": [
+      {
+        "error": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000,
+          "name": "Error",
+          "message": "connect ECONNREFUSED 127.0.0.1:3000",
+          "stack": "Error: connect ECONNREFUSED 127.0.0.1:3000\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)",
+          "checksum": "766c5ac08b93aee30d0f2d760d8b05cb",
+          "id": "0982edb8-59c5-480f-9ce1-cfc881613aa1",
+          "timestamp": 1753617420308,
+          "stacktrace": [
+            {
+              "fileName": "node:net",
+              "lineNumber": 1611,
+              "functionName": "TCPConnectWrap.afterConnect [as oncomplete]",
+              "typeName": "TCPConnectWrap",
+              "methodName": "afterConnect [as oncomplete]",
+              "columnNumber": 16,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "2c297329-9704-4b22-b404-a62d8e6917dc",
+          "name": "Auth: Login",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ],
+              "host": [
+                "localhost"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "7026b695-f224-4e28-a08f-dd4a3dec3cdf",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "localhost:3000",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "df083b7a-9b5e-46d8-b516-f8a53dd0741a",
+              "name": "200 OK",
+              "header": [],
+              "body": "{\n  \"token\": \"<JWT_TOKEN>\"\n}",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 5,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "f36fdb25-edec-47d9-8e6c-da53f0e3a883",
+          "httpRequestId": "263120a9-278c-445d-9224-3a35cc748559"
+        }
+      },
+      {
+        "error": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000,
+          "name": "Error",
+          "message": "connect ECONNREFUSED 127.0.0.1:3000",
+          "stack": "Error: connect ECONNREFUSED 127.0.0.1:3000\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)",
+          "checksum": "766c5ac08b93aee30d0f2d760d8b05cb",
+          "id": "88aaf456-d242-4755-ba19-646bde4c2e84",
+          "timestamp": 1753617420321,
+          "stacktrace": [
+            {
+              "fileName": "node:net",
+              "lineNumber": 1611,
+              "functionName": "TCPConnectWrap.afterConnect [as oncomplete]",
+              "typeName": "TCPConnectWrap",
+              "methodName": "afterConnect [as oncomplete]",
+              "columnNumber": 16,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "77c505b6-0ae7-419e-aad0-db62b24dd46c",
+          "name": "Auth: Refresh Token",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ],
+              "host": [
+                "localhost"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer "
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "98eecaa7-4401-4f0d-89c1-1defa3483ccf",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "localhost:3000",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "POST"
+          },
+          "response": [
+            {
+              "id": "096449ac-8ae3-47f1-8f2a-c57d07fb22f2",
+              "name": "200 OK",
+              "header": [],
+              "body": "{\n  \"token\": \"<NEW_JWT_TOKEN>\"\n}",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "ref": "ec9eebfa-fb70-42bf-a53d-898c444a7a53",
+          "length": 5,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "01b1b306-a403-4380-baa6-4a4a12e21d6a"
+        }
+      },
+      {
+        "error": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000,
+          "name": "Error",
+          "message": "connect ECONNREFUSED 127.0.0.1:3000",
+          "stack": "Error: connect ECONNREFUSED 127.0.0.1:3000\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)",
+          "checksum": "766c5ac08b93aee30d0f2d760d8b05cb",
+          "id": "0614321c-b615-41a0-a5da-df92e05db1e4",
+          "timestamp": 1753617420331,
+          "stacktrace": [
+            {
+              "fileName": "node:net",
+              "lineNumber": 1611,
+              "functionName": "TCPConnectWrap.afterConnect [as oncomplete]",
+              "typeName": "TCPConnectWrap",
+              "methodName": "afterConnect [as oncomplete]",
+              "columnNumber": 16,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "ff0987f5-1108-4feb-8e41-a37a4e493325",
+          "name": "Auth: Update Credentials",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "update"
+              ],
+              "host": [
+                "localhost"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer "
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "24febce8-f0b6-4a5a-85cd-4b9c0430f54d",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "localhost:3000",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newUsername\": \"newUser\",\n  \"newPassword\": \"newPass123\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "54c59f01-fc90-40e9-96e2-0583f1a731b2",
+              "name": "200 OK",
+              "header": [],
+              "body": "{ \"success\": true }",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "ref": "5084f2ee-8376-461b-9d91-dec6e7016a26",
+          "length": 5,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0,
+          "httpRequestId": "4bd613be-9a7e-4672-b62b-70c0992bca55"
+        }
+      },
+      {
+        "error": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000,
+          "name": "Error",
+          "message": "connect ECONNREFUSED 127.0.0.1:3000",
+          "stack": "Error: connect ECONNREFUSED 127.0.0.1:3000\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)",
+          "checksum": "766c5ac08b93aee30d0f2d760d8b05cb",
+          "id": "c238d390-5f64-4882-8a61-6336b2c0010d",
+          "timestamp": 1753617420342,
+          "stacktrace": [
+            {
+              "fileName": "node:net",
+              "lineNumber": 1611,
+              "functionName": "TCPConnectWrap.afterConnect [as oncomplete]",
+              "typeName": "TCPConnectWrap",
+              "methodName": "afterConnect [as oncomplete]",
+              "columnNumber": 16,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "9874fd72-b59c-4443-bd6d-9136742888d6",
+          "name": "Transactions: List & Filter",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "port": "3000",
+              "path": [
+                "api",
+                "transactions"
+              ],
+              "host": [
+                "localhost"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "merchant",
+                  "value": "M1823072687"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer "
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "d63ae904-d025-4feb-8ab5-c15a95f1af10",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "localhost:3000",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "178829b8-5c64-4701-8d40-9ca73a04a9eb",
+              "name": "200 OK",
+              "header": [],
+              "body": "{\n  \"page\":1,\n  \"limit\":20,\n  \"total\":100,\n  \"totalPages\":5,\n  \"data\":[ { /* transaction objects */ } ]\n}",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "ref": "198bc0a6-c5ab-4da6-8aa2-5995129190a4",
+          "length": 5,
+          "cycles": 1,
+          "position": 3,
+          "iteration": 0,
+          "httpRequestId": "fd895be9-c4ec-4eb3-ba31-0a28bc3110c9"
+        }
+      },
+      {
+        "error": {
+          "errno": -111,
+          "code": "ECONNREFUSED",
+          "syscall": "connect",
+          "address": "127.0.0.1",
+          "port": 3000,
+          "name": "Error",
+          "message": "connect ECONNREFUSED 127.0.0.1:3000",
+          "stack": "Error: connect ECONNREFUSED 127.0.0.1:3000\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)",
+          "checksum": "766c5ac08b93aee30d0f2d760d8b05cb",
+          "id": "4302a4e3-fc95-43e5-b49e-2e1080c93618",
+          "timestamp": 1753617420351,
+          "stacktrace": [
+            {
+              "fileName": "node:net",
+              "lineNumber": 1611,
+              "functionName": "TCPConnectWrap.afterConnect [as oncomplete]",
+              "typeName": "TCPConnectWrap",
+              "methodName": "afterConnect [as oncomplete]",
+              "columnNumber": 16,
+              "native": false
+            }
+          ]
+        },
+        "at": "request",
+        "source": {
+          "id": "a9f0bddc-4e50-41c3-a4f1-d74f47e0f678",
+          "name": "Transactions-Stats: Grouped Analytics",
+          "request": {
+            "url": {
+              "protocol": "http",
+              "port": "3000",
+              "path": [
+                "api",
+                "transactions-stats"
+              ],
+              "host": [
+                "localhost"
+              ],
+              "query": [
+                {
+                  "key": "groupBy",
+                  "value": "category"
+                },
+                {
+                  "key": "top",
+                  "value": "5"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer "
+              },
+              {
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "system": true
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true
+              },
+              {
+                "key": "Postman-Token",
+                "value": "a1898aae-ea01-4a4c-b2f6-4b7c6f50deab",
+                "system": true
+              },
+              {
+                "key": "Host",
+                "value": "localhost:3000",
+                "system": true
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "8c8621ec-561e-4157-baca-85dd14ea8ce3",
+              "name": "200 OK",
+              "header": [],
+              "body": "[ { \"category\":\"es_transportation\",\"count\":42 }, … ]",
+              "cookie": []
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "ref": "a8dd87ff-9222-4e08-910c-f0837614ee17",
+          "length": 5,
+          "cycles": 1,
+          "position": 4,
+          "iteration": 0,
+          "httpRequestId": "3f958311-32a2-41cb-862c-4bb43dde3fc3"
+        }
+      }
+    ],
+    "error": null
+  }
+}

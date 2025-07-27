@@ -1,11 +1,10 @@
-import transactionsHandler from '../../pages/api/transactions';
-import loginHandler from '../../pages/api/auth/login';
-import { testApiHandler } from 'next-test-api-route-handler';
+const { testApiHandler } = require('next-test-api-route-handler');
+const transactionsHandler = require('../../pages/api/transactions').default;
+const loginHandler = require('../../pages/api/auth/login').default;
 
 let adminToken, customerToken, clientToken;
 
 beforeAll(async () => {
-  // Helper to login and get JWT using testApiHandler
   async function getToken(credentials) {
     let token = '';
     await testApiHandler({
@@ -30,7 +29,6 @@ describe('/api/transactions', () => {
       params: { limit: '2', page: '1' },
       requestPatcher: (req) => req.headers['authorization'] = `Bearer ${adminToken}`,
       test: async ({ fetch }) => {
-        // Note: GET is default in next-test-api-route-handler
         const res = await fetch();
         expect(res.status).toBe(200);
         const data = await res.json();
