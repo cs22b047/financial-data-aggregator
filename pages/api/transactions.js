@@ -19,22 +19,31 @@ export default async function handler(req, res) {
   const offset = (page - 1) * limit;
 
   // Build where/sort clauses
-  const where = [];
-  const params = [];
+const where = [];
+const params = [];
 
-  // ADMIN: filter by provided query params
-  if (user.role === 'admin') {
-    if (gender)       { where.push('gender = ?');   params.push(gender); }
-    if (merchant)     { where.push('merchant = ?'); params.push(merchant); }
-    if (customer)     { where.push('customer = ?'); params.push(customer); }
-    if (category)     { where.push('category = ?'); params.push(category); }
-  }
-  // CUSTOMER: Only their transactions, allow their local filters
-  else if (user.role === 'customer' && user.customerId) {
-    where.push('customer = ?'); params.push(user.customerId);
-    if (merchant)   { where.push('merchant = ?'); params.push(merchant); }
-    if (category)   { where.push('category = ?'); params.push(category); }
-  }
+if (user.role === 'admin') {
+  if (gender)   { where.push('gender = ?');   params.push(gender); }
+  if (merchant) { where.push('merchant = ?'); params.push(merchant); }
+  if (customer) { where.push('customer = ?'); params.push(customer); }
+  if (category) { where.push('category = ?'); params.push(category); }
+}
+else if (user.role === 'customer' && user.customerId) {
+  where.push('customer = ?');
+  params.push(user.customerId);
+  if (merchant) { where.push('merchant = ?'); params.push(merchant); }
+  if (category) { where.push('category = ?'); params.push(category); }
+}
+// NEW: Client (category scope)
+else if (user.role === 'client' && user.category) {
+  where.push('category = ?');
+  params.push(user.category);
+  if (merchant) { where.push('merchant = ?'); params.push(merchant); }
+  // Do not let client override category!
+}
+else {
+  return res.status(403).json({ message: 'Forbidden: Invalid role' });
+}
 
   let sqlWhere = where.length ? ' WHERE ' + where.join(' AND ') : '';
   let sortClause = '';

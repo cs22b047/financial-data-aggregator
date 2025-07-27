@@ -73,8 +73,10 @@ export default function TransactionsTable() {
 
   
   // Filters to show
-  const filterFields = role === "admin"
-    ? ["gender", "merchant", "customer", "category"]
+const filterFields = role === "admin"
+  ? ["gender", "merchant", "customer", "category"]
+  : role === "client"
+    ? ["merchant"] // Client always fixed to one category
     : ["merchant", "category"];
 
   if (!token) return <p>You must login first.</p>;

@@ -24,19 +24,30 @@ export default function RoleCharts() {
   useEffect(() => {
     if (!token) return;
     // For demo: use two bars and two pies, adjust titles/groupBy/top as needed
-    const configs = role === 'admin'
-      ? [
+    const configs =
+  role === 'admin'
+    ? [
         { key: 'merchant', type: 'bar', title: 'Top Merchants', groupBy: 'merchant', top: 10 },
         { key: 'category', type: 'pie', title: 'Transactions by Category', groupBy: 'category' },
         { key: 'gender', type: 'pie', title: 'Transactions by Gender', groupBy: 'gender' },
         { key: 'zipcodeOri', type: 'bar', title: 'Transactions by Zipcode', groupBy: 'zipcodeOri' },
       ]
-      : [
+  : role === 'customer'
+    ? [
         { key: 'merchant', type: 'bar', title: 'Your Top Merchants', groupBy: 'merchant', top: 5 },
         { key: 'category', type: 'pie', title: 'Your Transactions by Category', groupBy: 'category' },
-        { key: 'category', type: 'pie', title: 'Your Transactions by Category (Duplicate for demo)', groupBy: 'category' },
-        { key: 'merchant', type: 'bar', title: 'Your Top Merchants (Duplicate for demo)', groupBy: 'merchant', top: 5 },
-      ];
+        { key: 'zipcodeOri', type: 'bar', title: 'Your Transactions by Zipcode', groupBy: 'zipcodeOri' },
+        { key: 'merchant', type: 'pie', title: 'Your Merchant Share', groupBy: 'merchant', top: 5 }
+      ]
+  : role === 'client'
+    ? [
+        { key: 'merchant', type: 'bar', title: 'Top Merchants in This Category', groupBy: 'merchant', top: 5 },
+        { key: 'zipcodeOri', type: 'bar', title: 'Transactions by Zipcode (in Category)', groupBy: 'zipcodeOri' },
+        // For "client", category is always ONE value, so don't show a category pie!
+        { key: 'merchant', type: 'pie', title: 'Merchant Share (in Category)', groupBy: 'merchant', top: 5 },
+        { key: 'gender', type: 'pie', title: 'Gender Share (in Category)', groupBy: 'gender' }
+      ]
+  : [];
 
     Promise.all(
       configs.map(async ({ groupBy, top, ...rest }) => {

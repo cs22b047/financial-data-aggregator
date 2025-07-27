@@ -34,6 +34,7 @@ export default function App({ Component, pageProps }) {
     localStorage.removeItem('username');
     if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
     if (logoutTimeoutRef.current) clearTimeout(logoutTimeoutRef.current);
+    window.location.href = '/';   
   };
 
   // On mount, load from localStorage
