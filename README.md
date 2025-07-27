@@ -79,3 +79,6 @@ The Financial Data Aggregator is a secure, scalable, and real-time web applicati
 
 ---
 **Thank you for the Hamper!**
+
+![alt text](<public/Screenshot from 2025-07-27 16-59-25.png>)
+![alt text](<public/Screenshot from 2025-07-27 16-59-55.png>)
