@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest"
   },
   "dependencies": {
     "chart.js": "^4.5.0",
@@ -23,6 +24,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "jest": "^30.0.5",
+    "supertest": "^7.1.4",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
