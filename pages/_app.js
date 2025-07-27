@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useRef } from 'react';
 import { jwtDecode } from 'jwt-decode'; // <-- CORRECT USAGE
+import '../styles/globals.css';
 
 const AuthContext = createContext();
 export function useAuth() { return useContext(AuthContext); }
