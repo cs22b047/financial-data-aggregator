@@ -2,50 +2,51 @@ import pool from '../../lib/db';
 import { verifyToken } from '../../lib/auth';
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET') return res.status(405).json({ message: 'Method Not Allowed' });
+  if (req.method !== 'GET') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
 
-  // Auth
   const user = verifyToken(req);
-  if (!user) return res.status(401).json({ message: 'Unauthorized' });
+  if (!user) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
 
-  // Pagination
-  let limit = parseInt(req.query.limit) || 20;
-  let page = parseInt(req.query.page) || 1;
+  let limit = parseInt(req.query.limit, 10) || 20;
+  let page = parseInt(req.query.page, 10) || 1;
   if (limit > 100) limit = 100;
   const offset = (page - 1) * limit;
 
-  // Role filtering
-  let baseQuery = 'SELECT id, step, customer, age, gender, zipcodeOri, merchant, zipMerchant, category, amount, fraud FROM transactions';
-  let countQuery = 'SELECT COUNT(*) as total FROM transactions';
-  let conditions = [];
+  let baseQuery = 'FROM transactions';
+  let filter = '';
   let params = [];
-  if (user.role === 'client') {
-    conditions.push('customer = ?');
-    params.push(user.customerId);  // include customerId in your JWT for clients
+  if (user.role === 'customer' && user.customerId) {
+    filter = ' WHERE customer = ?';
+    params.push(user.customerId);
   }
-  if (user.role === 'user') {
-    conditions.push('fraud = 0');
-  }
-  if (conditions.length) {
-    baseQuery += ' WHERE ' + conditions.join(' AND ');
-    countQuery += ' WHERE ' + conditions.join(' AND ');
-  }
-  baseQuery += ' LIMIT ? OFFSET ?';
-  params.push(limit, offset);
+
+  // 1. Get total count
+  const countQuery = `SELECT COUNT(*) as total ${baseQuery}${filter}`;
+  // 2. Get paginated data
+  const dataQuery = `SELECT * ${baseQuery}${filter} LIMIT ? OFFSET ?`;
+  const paramsWithLimit = [...params, limit, offset];
 
   try {
-    const [rows] = await pool.query(baseQuery, params);
-    const [countRes] = await pool.query(countQuery, params.slice(0, params.length - 2));
-    const total = countRes[0]?.total || 0;
+    // 1. Count for pagination
+    const [countRes] = await pool.query(countQuery, params);
+    const total = countRes[0].total;
+    const totalPages = Math.ceil(total / limit) || 1;
+
+    // 2. Data
+    const [rows] = await pool.query(dataQuery, paramsWithLimit);
 
     res.status(200).json({
       page,
       limit,
       total,
-      totalPages: Math.ceil(total / limit),
-      data: rows,
+      totalPages,
+      data: rows
     });
-  } catch (e) {
-    res.status(500).json({ message: 'Database error: ' + e.message });
+  } catch (err) {
+    res.status(500).json({ message: 'Database query error', error: err.message });
   }
 }
