@@ -1,6 +1,7 @@
 import { useAuth } from './_app';
 import { useEffect } from 'react';
 import TransactionsTable from '../components/TransactionsTable';
+import RolePieCharts from '../components/RolePieCharts';
 
 export default function Dashboard() {
   const { token, loading } = useAuth();
@@ -16,6 +17,7 @@ export default function Dashboard() {
     <div>
       <h1>Dashboard</h1>
       <TransactionsTable />
-    </div>
+      <RolePieCharts />
+    </div>  
   );
 }
